@@ -1,0 +1,88 @@
+    // Initialize GLFW
+    if (!glfwInit()) {
+        return -1;
+    }
+
+    // Create a windowed mode window and its OpenGL context
+    GLFWwindow* window = glfwCreateWindow(640, 480, "OpenGL Tutorial", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        return -1;
+    }
+
+    // Make the window's context current
+    glfwMakeContextCurrent(window);
+
+    // Initialize ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
+
+    // Setup ImGui for GLFW and OpenGL
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+
+    // Input variables
+    float inputValue = 0.0f;
+    char textInput[256] = "";
+
+    // Variables to hold input values for the popup
+    float popupValue = 0.0f;
+    char popupText[256] = "";
+
+    // Loop until the user closes the window
+    while (!glfwWindowShouldClose(window)) {
+        // ImGui new frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        // Create your GUI elements here
+        ImGui::Text("Hello, World!"); // Display text
+
+        ImGui::InputFloat("Enter a value", &inputValue); // Input field for float
+
+        ImGui::InputText("Enter some text", textInput, sizeof(textInput)); // Input field for text
+
+        // Button to open a popup with input values
+        if (ImGui::Button("Show Popup")) {
+            popupValue = inputValue; // Store the input value
+            strcpy_s(popupText, sizeof(popupText), textInput); // Store the input text
+            ImGui::OpenPopup("Input Values"); // Open the popup
+        }
+
+        // Define the contents of the popup
+        if (ImGui::BeginPopupModal("Input Values", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            ImGui::Text("Entered Value: %.3f", popupValue); // Display the stored float value
+            ImGui::Text("Entered Text: %s", popupText); // Display the stored text
+            if (ImGui::Button("OK")) {
+                ImGui::CloseCurrentPopup(); // Close the popup
+            }
+            ImGui::EndPopup();
+        }
+
+        // Rendering
+        ImGui::Render();
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // Render ImGui
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        // Swap front and back buffers
+        glfwSwapBuffers(window);
+
+        // Poll for and process events
+        glfwPollEvents();
+    }
+
+    // Cleanup
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwTerminate();
