@@ -1,5 +1,7 @@
 #include "VBO.h"
 
+// VBO stands for vertex buffer object
+
 VBO::VBO(GLfloat* vertices, GLsizeiptr size)
 {
 	glGenBuffers(1, &ID); // Only 1 object so 1 in the first parameter, and the second parameter is the reference 
@@ -14,10 +16,10 @@ void VBO::Bind()
 
 void VBO::Unbind()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind by passing 0 as the current array buffer
 }
 
 void VBO::Delete()
 {
-	glDeleteBuffers(1, &ID);
+	glDeleteBuffers(1, &ID); // delete current vertex array buffer object
 }

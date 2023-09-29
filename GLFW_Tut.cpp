@@ -1,16 +1,20 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+/* IMGUI header files
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
-using namespace std;
+*/
 
+
+// Custom header files for VAO, VBO, EBO and ShaderClass(also includes vertex shader and fragment shader)
 #include "ShaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
 
+using namespace std;
 
 GLfloat vertices[] =
 {
@@ -59,7 +63,7 @@ int main()
 
     /*
 
-    GLuint VAO, VBO, EBO; // Array of references, but we only have one object so only one is needed. VBO stands for vertex buffer object. VAO stands for Vertex Array Object - used to quickly be able to switch between multiple VBOs. EBO is Index Buffer
+    GLuint VAO, VBO, EBO; // Array of references, but we only have one object so only one is needed. 
 
     glGenVertexArrays(1, &VAO); // **Very Important - Generate VAO before VBOs.
     glGenBuffers(1, &VBO); // Only 1 object so 1 in the first parameter, and the second parameter is the reference 
@@ -82,25 +86,23 @@ int main()
     glBindVertexArray(0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Make sure to unbind it after unbinding VAO since EBO is stored inside VAO. If we do that, we are telling OpenGL that we dont want to use EBO
+    
+    */
 
-    glClearColor(0.07f, 0.13f, 0.17f, 1.0f); // prepare to clear the color of the buffer and give it another color
-    glClear(GL_COLOR_BUFFER_BIT); // we want to use the above command on color buffer
-    glfwSwapBuffers(window); */
+    VAO VAO1; // VAO class object
+    VAO1.Bind(); // Call VAO bind function
 
-    VAO VAO1;
-    VAO1.Bind();
+    VBO VBO1(vertices, sizeof(vertices)); // VBO class object
+    EBO EBO1(indices, sizeof(indices)); // EBO class object
 
-    VBO VBO1(vertices, sizeof(vertices));
-    EBO EBO1(indices, sizeof(indices));
-
-    VAO1.LinkVBO(VBO1, 0);
-    VAO1.Unbind();
-    VBO1.Unbind();
-    EBO1.Unbind();
+    VAO1.LinkVBO(VBO1, 0); // Link VBO function
+    VAO1.Unbind(); // Unbind VAO
+    VBO1.Unbind(); // Unbind VBO
+    EBO1.Unbind(); // Unbind EBO
 
     while (!glfwWindowShouldClose(window)) // Make the window close only if close button is clicked and not reach the end of the main function immediately 
     {
-        glClearColor(0.07f, 0.13f, 0.17f, 1.0f); // prepare to clear the color of the buffer and give it another color
+        glClearColor(0.47f, 0.33f, 0.87f, 1.0f); // prepare to clear the color of the buffer and give it another color
         glClear(GL_COLOR_BUFFER_BIT); // we want to use the above command on color buffer
         /* glUseProgram(shaderProgram); // finally use the shader program */
         shaderProgram.Activate();
@@ -117,12 +119,14 @@ int main()
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram); */
+    glDeleteProgram(shaderProgram); 
+    
+    */
 
-    VAO1.Delete();
-    VBO1.Delete();
-    EBO1.Delete();
-    shaderProgram.Delete();
+    VAO1.Delete(); // Call the Delete function from VAO class 
+    VBO1.Delete(); // Call the Delete function from VBO class 
+    EBO1.Delete(); // Call the Delete function from EBO class 
+    shaderProgram.Delete(); // Delete the shader program
     
     glfwDestroyWindow(window); // Destroy the Window
     glfwTerminate(); // Terminate glfw

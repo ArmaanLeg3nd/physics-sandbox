@@ -1,5 +1,6 @@
 #include "ShaderClass.h"
 
+// Function to read data from files
 std::string get_file_contents(const char* filename)
 {
 	std::ifstream in(filename, std::ios::binary);

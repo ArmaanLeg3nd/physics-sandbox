@@ -1,5 +1,7 @@
 #include "EBO.h"
 
+// EBO is Element Array Buffer
+
 EBO::EBO(GLuint* indices, GLsizeiptr size)
 {
 	glGenBuffers(1, &ID); // Only 1 object so 1 in the first parameter, and the second parameter is the reference 
@@ -9,15 +11,15 @@ EBO::EBO(GLuint* indices, GLsizeiptr size)
 
 void EBO::Bind()
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID); // make VBO as the current object, so any function performed now will be performed on current object.
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID); // make EBO as the current object, so any function performed now will be performed on current object.
 }
 
 void EBO::Unbind()
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // unbind by passing 0 as the current element buffer
 }
 
 void EBO::Delete()
 {
-	glDeleteBuffers(1, &ID);
+	glDeleteBuffers(1, &ID); // delete current element array buffer object
 }
