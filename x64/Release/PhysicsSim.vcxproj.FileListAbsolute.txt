@@ -1,1 +1,1 @@
-C:\Coding\C\PhysicsSim\x64\Release\PhysicsSim.exe
+C:\Coding\C\PhysicsSim\x64\Release\physics-sandbox.exe
